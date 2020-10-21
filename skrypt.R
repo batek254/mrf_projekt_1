@@ -1,6 +1,7 @@
 library(readr)
 library(tidyverse)
 library(lubridate)
+library(tsibble)
 
 JSW_intraday <- read_delim("JSW_intraday.csv", 
                            ";", escape_double = FALSE, col_types = cols(`<DATE>` = col_character(), 
@@ -32,8 +33,17 @@ JSW_intraday <- JSW_intraday[order(JSW_intraday$`<DATETIME>`),]
 JSW_intraday <- JSW_intraday %>%
   select(`<DATETIME>`, `<OPEN>`, `<CLOSE>`, `<VOL>`) %>%
   fill(c(`<OPEN>`, `<CLOSE>`, `<VOL>`), .direction = 'down') %>%
-  mutate(stopy = log(`<CLOSE>`/`<OPEN>`))
+  mutate(stopy = log(`<CLOSE>`/`<OPEN>`), cena = `<CLOSE>`*`<VOL>`, vol_ln = log(`<VOL>`), cena_ln = log(cena))
 
 head(JSW_intraday)
+
+JSW_intraday %>%
+  ggplot(aes(x=`<DATETIME>`, y=stopy)) + geom_point()
+
+JSW_intraday %>%
+  ggplot(aes(x=`<DATETIME>`, y=vol_ln)) + geom_point()
+
+JSW_intraday %>%
+  ggplot(aes(x=`<DATETIME>`, y=cena_ln)) + geom_point()
 
 
