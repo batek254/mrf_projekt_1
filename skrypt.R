@@ -46,4 +46,20 @@ JSW_intraday %>%
 JSW_intraday %>%
   ggplot(aes(x=`<DATETIME>`, y=cena_ln)) + geom_point()
 
+######===============STREFA_TESTOWA===============#####
+srednie <- c()
+for(i in seq(9, 16, by = 1)){
+  for(j in seq(0, 55, by = 5)){
+    srednie <- c(srednie, mean(JSW_intraday$stopy[which(minute(JSW_intraday$`<DATETIME>`) == j & hour(JSW_intraday$`<DATETIME>`) == i)]))
+  }
+}
 
+test <- data.frame(rep(9:16, each=12), rep(seq(0, 55, by = 5), 8))
+test <- test[-c(95,96),c(1,2)]
+test <- data.frame(test, srednie[-c(95,96)])
+colnames(test) <- c('czas', 'm', 'srednie')
+
+test$czas <- paste(test$czas, ':', test$m)
+test <- test %>% select(-m) %>% mutate(czas = hm(czas))
+
+test %>% ggplot(aes(x=czas, y=srednie)) + geom_line() + scale_x_time()
