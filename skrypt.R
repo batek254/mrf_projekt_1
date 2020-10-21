@@ -6,7 +6,7 @@ JSW_intraday <- read_delim("JSW_intraday.csv",
                            ";", escape_double = FALSE, col_types = cols(`<DATE>` = col_character(), 
                                                                         `<TIME>` = col_character()), trim_ws = TRUE)
 str(JSW_intraday)
-View(JSW_intraday)
+#View(JSW_intraday)
 
 JSW_intraday$`<TIME>` <- gsub("^[9]", "09", JSW_intraday$`<TIME>`)
 
@@ -30,9 +30,10 @@ JSW_intraday <- right_join(JSW_intraday, daty)
 JSW_intraday <- JSW_intraday[order(JSW_intraday$`<DATETIME>`),]
 
 JSW_intraday <- JSW_intraday %>%
-  select(`<OPEN>`, `<CLOSE>`, `<DATETIME>`) %>%
-  fill(c(`<OPEN>`, `<CLOSE>`), .direction = 'down') %>%
+  select(`<DATETIME>`, `<OPEN>`, `<CLOSE>`, `<VOL>`) %>%
+  fill(c(`<OPEN>`, `<CLOSE>`, `<VOL>`), .direction = 'down') %>%
   mutate(stopy = log(`<CLOSE>`/`<OPEN>`))
 
 head(JSW_intraday)
+
 
