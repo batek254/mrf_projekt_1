@@ -37,6 +37,7 @@ JSW_intraday <- JSW_intraday %>%
 
 head(JSW_intraday)
 
+#TO RACZEJ ZLE WYKRESY
 JSW_intraday %>%
   ggplot(aes(x=`<DATETIME>`, y=stopy)) + geom_point()
 
@@ -47,6 +48,13 @@ JSW_intraday %>%
   ggplot(aes(x=`<DATETIME>`, y=cena_ln)) + geom_point()
 
 ######===============STREFA_TESTOWA===============#####
+#TO CHYBA NAJLADNIEJSZA OPCJA
+JSW_intraday %>% 
+  group_by(hour(`<DATETIME>`), minute(`<DATETIME>`)) %>% 
+  select(stopy) %>% 
+  summarise(mean = mean(stopy))
+
+#PONIZEJ BRZYDKIE
 srednie <- c()
 for(i in seq(9, 16, by = 1)){
   for(j in seq(0, 55, by = 5)){
