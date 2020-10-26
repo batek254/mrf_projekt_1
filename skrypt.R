@@ -346,6 +346,12 @@ CIE_intraday_10 <- CIE_intraday_10 %>%
 
 head(CIE_intraday_10)
 
+#=======================TEST==============================
+CIE_intraday %>%
+  filter(minute(DATETIME) %in% c(0,10,20,30,40,50)) %>%
+  mutate(stopy = log(`<CLOSE>`/`<OPEN>`))
+#=======================KONIEC============================
+
 JSW_intraday_10 <- right_join(JSW_intraday, daty)
 JSW_intraday_10 <- JSW_intraday_10[order(JSW_intraday_10$DATETIME),]
 
