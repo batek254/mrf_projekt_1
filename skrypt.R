@@ -329,124 +329,61 @@ CIE_intraday %>%
 
 #ZAD6
 #CIE10
-daty <- seq(ymd_hms("2020-09-04 09:00:00"), ymd_hms("2020-10-16 16:45:00"), by='10 min')
-daty <- daty[-which(hour(daty) > 16 | hour(daty) < 9)]
-daty <- daty[-which(hour(daty) == 16 & minute(daty) > 45)]
-daty <- daty[-which(weekdays(daty) == 'sobota' | weekdays(daty) == 'niedziela')]
-daty <- as.data.frame(daty)
-colnames(daty) <- "DATETIME"
-
-CIE_intraday_10 <- right_join(CIE_intraday, daty)
-CIE_intraday_10 <- CIE_intraday_10[order(CIE_intraday_10$DATETIME),]
-
-CIE_intraday_10 <- CIE_intraday_10 %>%
-  select(DATETIME, `<OPEN>`, `<CLOSE>`, `<VOL>`) %>%
-  fill(c(`<OPEN>`, `<CLOSE>`, `<VOL>`), .direction = 'down') %>%
-  mutate(stopy = log(`<CLOSE>`/`<OPEN>`), cena = `<CLOSE>`*`<VOL>`, vol_ln = log(`<VOL>`), cena_ln = log(cena))
+CIE_intraday_10 <- CIE_intraday %>%
+  filter(minute(DATETIME) %in% c(0,10,20,30,40,50)) %>%
+  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
 
 head(CIE_intraday_10)
 
-#=======================TEST==============================
-CIE_intraday %>%
+JSW_intraday_10 <- JSW_intraday %>%
   filter(minute(DATETIME) %in% c(0,10,20,30,40,50)) %>%
-  mutate(stopy = log(`<CLOSE>`/`<OPEN>`))
-#=======================KONIEC============================
-
-JSW_intraday_10 <- right_join(JSW_intraday, daty)
-JSW_intraday_10 <- JSW_intraday_10[order(JSW_intraday_10$DATETIME),]
-
-JSW_intraday_10 <- JSW_intraday_10 %>%
-  select(DATETIME, `<OPEN>`, `<CLOSE>`, `<VOL>`) %>%
-  fill(c(`<OPEN>`, `<CLOSE>`, `<VOL>`), .direction = 'down') %>%
-  mutate(stopy = log(`<CLOSE>`/`<OPEN>`), cena = `<CLOSE>`*`<VOL>`, vol_ln = log(`<VOL>`), cena_ln = log(cena))
+  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
 
 head(JSW_intraday_10)
 
 #CIE15
-daty <- seq(ymd_hms("2020-09-04 09:00:00"), ymd_hms("2020-10-16 16:45:00"), by='15 min')
-daty <- daty[-which(hour(daty) > 16 | hour(daty) < 9)]
-daty <- daty[-which(weekdays(daty) == 'sobota' | weekdays(daty) == 'niedziela')]
-daty <- as.data.frame(daty)
-colnames(daty) <- "DATETIME"
-
-CIE_intraday_15 <- right_join(CIE_intraday, daty)
-CIE_intraday_15 <- CIE_intraday_15[order(CIE_intraday_15$DATETIME),]
-
-CIE_intraday_15 <- CIE_intraday_15 %>%
-  select(DATETIME, `<OPEN>`, `<CLOSE>`, `<VOL>`) %>%
-  fill(c(`<OPEN>`, `<CLOSE>`, `<VOL>`), .direction = 'down') %>%
-  mutate(stopy = log(`<CLOSE>`/`<OPEN>`), cena = `<CLOSE>`*`<VOL>`, vol_ln = log(`<VOL>`), cena_ln = log(cena))
+CIE_intraday_15 <- CIE_intraday %>%
+  filter(minute(DATETIME) %in% c(0,15,30,45)) %>%
+  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
 
 head(CIE_intraday_15)
 
-JSW_intraday_15 <- right_join(JSW_intraday, daty)
-JSW_intraday_15 <- JSW_intraday_15[order(JSW_intraday_15$DATETIME),]
-
-JSW_intraday_15 <- JSW_intraday_15 %>%
-  select(DATETIME, `<OPEN>`, `<CLOSE>`, `<VOL>`) %>%
-  fill(c(`<OPEN>`, `<CLOSE>`, `<VOL>`), .direction = 'down') %>%
-  mutate(stopy = log(`<CLOSE>`/`<OPEN>`), cena = `<CLOSE>`*`<VOL>`, vol_ln = log(`<VOL>`), cena_ln = log(cena))
+JSW_intraday_15 <- JSW_intraday %>%
+  filter(minute(DATETIME) %in% c(0,15,30,45)) %>%
+  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
 
 head(JSW_intraday_15)
 
 #CIE20
-daty <- seq(ymd_hms("2020-09-04 09:00:00"), ymd_hms("2020-10-16 16:45:00"), by='20 min')
-daty <- daty[-which(hour(daty) > 16 | hour(daty) < 9)]
-daty <- daty[-which(weekdays(daty) == 'sobota' | weekdays(daty) == 'niedziela')]
-daty <- as.data.frame(daty)
-colnames(daty) <- "DATETIME"
-
-CIE_intraday_20 <- right_join(CIE_intraday, daty)
-CIE_intraday_20 <- CIE_intraday_20[order(CIE_intraday_20$DATETIME),]
-
-CIE_intraday_20 <- CIE_intraday_20 %>%
-  select(DATETIME, `<OPEN>`, `<CLOSE>`, `<VOL>`) %>%
-  fill(c(`<OPEN>`, `<CLOSE>`, `<VOL>`), .direction = 'down') %>%
-  mutate(stopy = log(`<CLOSE>`/`<OPEN>`), cena = `<CLOSE>`*`<VOL>`, vol_ln = log(`<VOL>`), cena_ln = log(cena))
+CIE_intraday_20 <- CIE_intraday %>%
+  filter(minute(DATETIME) %in% c(0,20,40)) %>%
+  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
 
 head(CIE_intraday_20)
 
-JSW_intraday_20 <- right_join(JSW_intraday, daty)
-JSW_intraday_20 <- JSW_intraday_20[order(JSW_intraday_20$DATETIME),]
-
-JSW_intraday_20 <- JSW_intraday_20 %>%
-  select(DATETIME, `<OPEN>`, `<CLOSE>`, `<VOL>`) %>%
-  fill(c(`<OPEN>`, `<CLOSE>`, `<VOL>`), .direction = 'down') %>%
-  mutate(stopy = log(`<CLOSE>`/`<OPEN>`), cena = `<CLOSE>`*`<VOL>`, vol_ln = log(`<VOL>`), cena_ln = log(cena))
+JSW_intraday_20 <- CIE_intraday %>%
+  filter(minute(DATETIME) %in% c(0,20,40)) %>%
+  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
 
 head(JSW_intraday_20)
 
 #CIE30
-daty <- seq(ymd_hms("2020-09-04 09:00:00"), ymd_hms("2020-10-16 16:45:00"), by='30 min')
-daty <- daty[-which(hour(daty) > 16 | hour(daty) < 9)]
-daty <- daty[-which(weekdays(daty) == 'sobota' | weekdays(daty) == 'niedziela')]
-daty <- as.data.frame(daty)
-colnames(daty) <- "DATETIME"
-
-CIE_intraday_30 <- right_join(CIE_intraday, daty)
-CIE_intraday_30 <- CIE_intraday_30[order(CIE_intraday_30$DATETIME),]
-
-CIE_intraday_30 <- CIE_intraday_30 %>%
-  select(DATETIME, `<OPEN>`, `<CLOSE>`, `<VOL>`) %>%
-  fill(c(`<OPEN>`, `<CLOSE>`, `<VOL>`), .direction = 'down') %>%
-  mutate(stopy = log(`<CLOSE>`/`<OPEN>`), cena = `<CLOSE>`*`<VOL>`, vol_ln = log(`<VOL>`), cena_ln = log(cena))
+CIE_intraday_30 <- CIE_intraday %>%
+  filter(minute(DATETIME) %in% c(0,30)) %>%
+  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
 
 head(CIE_intraday_30)
 
-JSW_intraday_30 <- right_join(JSW_intraday, daty)
-JSW_intraday_30 <- JSW_intraday_30[order(JSW_intraday_30$DATETIME),]
-
-JSW_intraday_30 <- JSW_intraday_30 %>%
-  select(DATETIME, `<OPEN>`, `<CLOSE>`, `<VOL>`) %>%
-  fill(c(`<OPEN>`, `<CLOSE>`, `<VOL>`), .direction = 'down') %>%
-  mutate(stopy = log(`<CLOSE>`/`<OPEN>`), cena = `<CLOSE>`*`<VOL>`, vol_ln = log(`<VOL>`), cena_ln = log(cena))
+JSW_intraday_30 <- CIE_intraday %>%
+  filter(minute(DATETIME) %in% c(0,30)) %>%
+  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
 
 head(JSW_intraday_30)
 
 #KORELACJE
 cor(CIE_intraday$stopy, JSW_intraday$stopy)
-cor(CIE_intraday_10$stopy, JSW_intraday_10$stopy)
-cor(CIE_intraday_15$stopy, JSW_intraday_15$stopy)
-cor(CIE_intraday_20$stopy, JSW_intraday_20$stopy)
-cor(CIE_intraday_30$stopy, JSW_intraday_30$stopy)
+cor(CIE_intraday_10$stopy, JSW_intraday_10$stopy, use='complete.obs')
+cor(CIE_intraday_15$stopy, JSW_intraday_15$stopy, use='complete.obs')
+cor(CIE_intraday_20$stopy, JSW_intraday_20$stopy, use='complete.obs')
+cor(CIE_intraday_30$stopy, JSW_intraday_30$stopy, use='complete.obs')
 
