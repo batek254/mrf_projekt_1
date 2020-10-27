@@ -331,52 +331,60 @@ CIE_intraday %>%
 #CIE10
 CIE_intraday_10 <- CIE_intraday %>%
   filter(minute(DATETIME) %in% c(0,10,20,30,40,50)) %>%
-  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
+  filter(!((hour(DATETIME) == 9) & (minute(DATETIME) == 0))) %>%
+  mutate(stopy = log(`<OPEN>`/lag(`<CLOSE>`)))
 
 head(CIE_intraday_10)
 
 JSW_intraday_10 <- JSW_intraday %>%
   filter(minute(DATETIME) %in% c(0,10,20,30,40,50)) %>%
-  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
+  filter(!((hour(DATETIME) == 9) & (minute(DATETIME) == 0))) %>%
+  mutate(stopy = log(`<OPEN>`/lag(`<CLOSE>`)))
 
 head(JSW_intraday_10)
 
 #CIE15
 CIE_intraday_15 <- CIE_intraday %>%
   filter(minute(DATETIME) %in% c(0,15,30,45)) %>%
-  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
+  filter(!((hour(DATETIME) == 9) & (minute(DATETIME) == 0))) %>%
+  mutate(stopy = log(`<OPEN>`/lag(`<CLOSE>`)))
 
 head(CIE_intraday_15)
 
 JSW_intraday_15 <- JSW_intraday %>%
   filter(minute(DATETIME) %in% c(0,15,30,45)) %>%
-  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
+  filter(!((hour(DATETIME) == 9) & (minute(DATETIME) == 0))) %>%
+  mutate(stopy = log(`<OPEN>`/lag(`<CLOSE>`)))
 
 head(JSW_intraday_15)
 
 #CIE20
 CIE_intraday_20 <- CIE_intraday %>%
   filter(minute(DATETIME) %in% c(0,20,40)) %>%
-  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
+  filter(!((hour(DATETIME) == 9) & (minute(DATETIME) == 0))) %>%
+  mutate(stopy = log(`<OPEN>`/lag(`<CLOSE>`)))
 
 head(CIE_intraday_20)
 
 JSW_intraday_20 <- JSW_intraday %>%
   filter(minute(DATETIME) %in% c(0,20,40)) %>%
-  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
+  filter(!((hour(DATETIME) == 9) & (minute(DATETIME) == 0))) %>%
+  mutate(stopy = log(`<OPEN>`/lag(`<CLOSE>`)))
 
 head(JSW_intraday_20)
 
 #CIE30
 CIE_intraday_30 <- CIE_intraday %>%
   filter(minute(DATETIME) %in% c(0,30)) %>%
-  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
+  filter(!((hour(DATETIME) == 9) & (minute(DATETIME) == 0))) %>%
+  mutate(stopy = log(`<OPEN>`/lag(`<CLOSE>`)))
 
 head(CIE_intraday_30)
 
 JSW_intraday_30 <- JSW_intraday %>%
   filter(minute(DATETIME) %in% c(0,30)) %>%
-  mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
+  filter(!((hour(DATETIME) == 9) & (minute(DATETIME) == 0))) %>%
+  mutate(stopy = log(`<OPEN>`/lag(`<CLOSE>`)))
 
 head(JSW_intraday_30)
 
