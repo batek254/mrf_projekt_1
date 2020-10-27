@@ -361,7 +361,7 @@ CIE_intraday_20 <- CIE_intraday %>%
 
 head(CIE_intraday_20)
 
-JSW_intraday_20 <- CIE_intraday %>%
+JSW_intraday_20 <- JSW_intraday %>%
   filter(minute(DATETIME) %in% c(0,20,40)) %>%
   mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
 
@@ -374,16 +374,19 @@ CIE_intraday_30 <- CIE_intraday %>%
 
 head(CIE_intraday_30)
 
-JSW_intraday_30 <- CIE_intraday %>%
+JSW_intraday_30 <- JSW_intraday %>%
   filter(minute(DATETIME) %in% c(0,30)) %>%
   mutate(stopy = log(lag(`<CLOSE>`)/`<OPEN>`))
 
 head(JSW_intraday_30)
 
 #KORELACJE
-cor(CIE_intraday$stopy, JSW_intraday$stopy)
-cor(CIE_intraday_10$stopy, JSW_intraday_10$stopy, use='complete.obs')
-cor(CIE_intraday_15$stopy, JSW_intraday_15$stopy, use='complete.obs')
-cor(CIE_intraday_20$stopy, JSW_intraday_20$stopy, use='complete.obs')
-cor(CIE_intraday_30$stopy, JSW_intraday_30$stopy, use='complete.obs')
+kor<-data.frame(c(5, 10, 15, 20, 30))
+kor[1, 2] = cor(CIE_intraday$stopy, JSW_intraday$stopy)
+kor[2, 2] = cor(CIE_intraday_10$stopy, JSW_intraday_10$stopy, use='complete.obs')
+kor[3, 2] = cor(CIE_intraday_15$stopy, JSW_intraday_15$stopy, use='complete.obs')
+kor[4, 2] = cor(CIE_intraday_20$stopy, JSW_intraday_20$stopy, use='complete.obs')
+kor[5, 2] = cor(CIE_intraday_30$stopy, JSW_intraday_30$stopy, use='complete.obs')
+colnames(kor) <- c('czas', 'korelacja')
 
+kor %>% ggplot(aes(x=czas, y=korelacja)) + geom_line()
